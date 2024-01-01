@@ -10,6 +10,7 @@ Vspi *dut = new Vspi;
 VerilatedVcdC *m_trace = new VerilatedVcdC;
 
 void clk(){
+    dut->eval();
     dut->i_clk ^=1;
     dut->eval();
     m_trace->dump(sim_time);
@@ -20,7 +21,6 @@ void send_byte(){
     dut->tx_start = 1;
     for(int  i= 0; i < 16; i++) clk();
     dut->tx_start = 0;
-    clk();
 }
 int main(int argc, char** argv, char** env) {
 
@@ -32,6 +32,8 @@ int main(int argc, char** argv, char** env) {
         send_byte();
         dut->i_tx_byte = 255;
         send_byte();
+        clk();
+        clk();
 
 
 
